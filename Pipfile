@@ -9,6 +9,7 @@ awswrangler = "*"
 pandas = "*"
 python-dotenv = "*"
 streamlit-aggrid = "*"
+pymongo = "*"
 
 [dev-packages]
 
