@@ -36,7 +36,7 @@ st.write('S3 Data')
 providers_choice = st.sidebar.multiselect(
     'Choose providers:',
     uniq_providers,
-    default = ['compass oncology']
+    default = ['atrium health']
 )
 
 # Filter dataframe based off of providers sidebar
@@ -87,6 +87,7 @@ if st.sidebar.button(f'Clear MongoDB'):
 st.subheader(f"Incorrect Affiliates in MongoDB")
 st.write('Pulse MongoDB')
 st.write(f'Collection: {MONGO_DB}.{MONGO_COLLECTION}')
+print(dfm_new)
 mongo_grid = AgGrid(dfm_new)
 
 
