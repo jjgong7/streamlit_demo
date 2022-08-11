@@ -7,7 +7,7 @@ TB_NAME = 'distinct_slug_orgs'
 OUTPUT_LOCATION = 's3://pulse-analytics-data-1/aws-athena-queries/aws-athena-queries/'
 
 # MongoDB Configs
-MONGO_DB = 'pulse_dev'
+MONGO_DB = 'pulse-dev'
 MONGO_COLLECTION = 'incorrectProviderAffiliates'
 
 

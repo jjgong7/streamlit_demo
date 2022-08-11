@@ -1,18 +1,11 @@
-# # if __name__=="__main__":
-# #     print("hey")
-import sys
-import os
-import boto3
-import awswrangler as wr
-import streamlit as st
 import pandas as pd
-import numpy as np
-from dotenv import load_dotenv
 from st_aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode
+
+import streamlit as st
+from utils.config import MONGO_COLLECTION, MONGO_DB
 # from utils.config import DB_NAME, TB_NAME, VIEW, OUTPUT_LOCATION
 # from utils.athena_query import get_query_df, get_query
-from utils.helpers import get_query, mongo_upload, get_pulse_mongo, clear_mongo
-from utils.config import MONGO_DB, MONGO_COLLECTION
+from utils.helpers import clear_mongo, get_pulse_mongo, get_query, mongo_upload
 
 # Retrieve query
 df_query = get_query()
@@ -56,6 +49,9 @@ update_mode = GridUpdateMode.SELECTION_CHANGED | GridUpdateMode.VALUE_CHANGED)
 # new_df = grid_return['data']
 selected_rows = grid_return['selected_rows']
 
+# Create emtpy dfm_new
+dfm_new = pd.DataFrame()
+
 # st.write('You selected new:')
 # st.write(new_df)
 
@@ -73,9 +69,9 @@ else:
 # Sidebar Update data
 if st.sidebar.button('Update MongoDB'):
     if len(list_dict)>0:
-        # Next steps: make sure none are duplicated. Otherwise allow removal
+        # Next steps: make sure none are duplicated. Otherwise allow removal]
         mongo_upload(list_dict, db_name=MONGO_DB, coll_name=MONGO_COLLECTION)
-        dfm_new = get_pulse_mongo(MONGO_DB, MONGO_COLLECTION)
+        dfm_new = get_pulse_mongo(MONGO_DB, MONGO_COLLECTION)[['slug', 'name', 'organization_name', 'reason']]
     else:
         st.write('No rows have been selected')
 
@@ -87,8 +83,7 @@ if st.sidebar.button(f'Clear MongoDB'):
 st.subheader(f"Incorrect Affiliates in MongoDB")
 st.write('Pulse MongoDB')
 st.write(f'Collection: {MONGO_DB}.{MONGO_COLLECTION}')
-print(dfm_new)
-mongo_grid = AgGrid(dfm_new)
+AgGrid(dfm_new)
 
 
 
